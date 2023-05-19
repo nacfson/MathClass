@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour{
@@ -20,6 +18,7 @@ public class EnemyHealth : MonoBehaviour{
 
     public void Damaged(bool isCritical){
         StartCoroutine(ChangeColor(isCritical));
+        StartCoroutine(ChangeAlpha());
     }
 
     private IEnumerator ChangeColor(bool isCritical){
@@ -34,6 +33,21 @@ public class EnemyHealth : MonoBehaviour{
             yield return wfs;
             _meshRenderer.material = _originMat;
 
+        }
+    }
+
+    private IEnumerator ChangeAlpha(){
+        float timer = 1f;
+        float currentTime = 0f;
+        while(currentTime < timer){
+            currentTime += Time.deltaTime;
+            float percent  = currentTime / timer;
+            Debug.Log(percent);
+            float value = Mathf.Cos((percent + 1 )* 0.25f);
+            Color a = _meshRenderer.material.color;
+            a.a = value;
+            _meshRenderer.material.color = a;
+            yield return null;
         }
     }
 }
