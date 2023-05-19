@@ -14,6 +14,9 @@ public class EnemyHealth : MonoBehaviour{
         _originMat = _meshRenderer.material;
 
     }
+    void Update(){
+        transform.Rotate(Time.deltaTime * 100f * transform.up);
+    }
 
     public void Damaged(bool isCritical){
         StartCoroutine(ChangeColor(isCritical));

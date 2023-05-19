@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour{
         Collider[] cols = Physics.OverlapSphere(transform.position,10f , 1 << LayerMask.NameToLayer("ENEMY"));
 
         foreach(Collider col in cols){
-            float a = Vector3.Dot(transform.forward,(col.transform.forward));
+            float a = Vector3.Dot((col.transform.forward),transform.position - col.transform.position);
 
             if(a > 0){
                 col.GetComponent<EnemyHealth>().Damaged(false);
