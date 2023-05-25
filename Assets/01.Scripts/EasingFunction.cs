@@ -28,7 +28,7 @@ public class EasingFunction : MonoBehaviour
         Vector3 startPos = firePoint.position;
         float time = 0f;
 
-        while(time < duration)
+        while (time < duration)
         {
             float t = time / duration;
             float easedT = EaseInCirc(t);
@@ -51,11 +51,11 @@ public class EasingFunction : MonoBehaviour
     }
     private void SetMaterialAlpha(float alpha)
     {
-        if(projectileMat!=null)
+        if (projectileMat != null)
         {
-        Color color = projectileMat.color;
-        color.a = alpha;
-        projectileMat.color = color;
+            Color color = projectileMat.color;
+            color.a = alpha;
+            projectileMat.color = color;
         }
     }
 }
