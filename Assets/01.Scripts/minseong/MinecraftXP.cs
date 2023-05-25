@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class MinecraftXP : MonoBehaviour
 {
@@ -54,16 +58,15 @@ public class MinecraftXP : MonoBehaviour
 
     void Update()
     {
-
+        if (Vector2.Distance(player.transform.position, transform.position) <= 3f)
+        {
+            Vector2 dir = player.transform.position - transform.position;
+            transform.position += (Vector3)dir * easeInSine(1) * Time.deltaTime;
+        }
     }
 
-/*    private void OnCollisionEnter2D(Collision2D collision)
+    float easeInSine(float x)
     {
-        *//*Debug.Log("yam");
-        if (collision.gameObject.name == "Player")
-        {
-            collision.gameObject.GetComponent<MinecraftXPBar>().currentXP += xpamount;
-            Destroy(gameObject);
-        }*//*
-    }*/
+        return 1 - Mathf.Pow(1 - x, 4);
+    }
 }
