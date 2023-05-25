@@ -8,11 +8,13 @@ public class MinecraftXPBar : MonoBehaviour
     [SerializeField]
     GameObject bar;
     [SerializeField]
-    TextMeshProUGUI txtCurrentLevel;
+    TextMeshPro txtCurrentLevel;
+    [SerializeField]
+    TextMeshPro txtCurrentXP;
 
     [SerializeField]
     float maxXP;
-    float currentXP;
+   public float currentXP;
 
     int level = 1;
 
@@ -26,8 +28,9 @@ public class MinecraftXPBar : MonoBehaviour
     {
         bar.transform.localScale = new Vector3(currentXP / maxXP, 1, 1);
         txtCurrentLevel.SetText(level.ToString());
+        txtCurrentXP.SetText(currentXP.ToString() + " / " + maxXP.ToString());
 
-        if(currentXP / maxXP >= 1)
+        if (currentXP / maxXP >= 1)
         {
             level++;
             currentXP = currentXP - maxXP;
@@ -36,8 +39,6 @@ public class MinecraftXPBar : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentXP += 5;
-            Debug.Log("curXP: "+currentXP);
-            Debug.Log("level: " + level);
         }
 
         GetMaxXP();
@@ -45,15 +46,15 @@ public class MinecraftXPBar : MonoBehaviour
 
     void GetMaxXP()
     {
-        if(level >= 0 && level <= 16)
+        if (level >= 0 && level <= 16)
         {
             maxXP = level * level + 6f * level;
         }
-        else if(level >= 17 && level <= 31)
+        else if (level >= 17 && level <= 31)
         {
             maxXP = (2.5f * level) * level - 40.5f * level + 360f;
         }
-        else if(level >= 32)
+        else if (level >= 32)
         {
             maxXP = (4.5f * level) * level - 162.5f * level + 2220f;
         }
