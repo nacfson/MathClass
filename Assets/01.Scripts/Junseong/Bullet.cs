@@ -1,18 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float m_Speed = 5f;
-    [SerializeField] private float radius = 3f;
     [SerializeField] Rigidbody rb;
-    [SerializeField] float attackAngleRange = 120f;
+    ApheliosAttack attack;
     Vector3 inputDir;
+    float radius;
+    float attackRange;
 
+    [SerializeField] Material HitMat;
     private void Awake()
     {
+        attack = GameObject.Find("Player").GetComponent<ApheliosAttack>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -22,33 +26,36 @@ public class Bullet : MonoBehaviour
         rb.velocity = inputDir * m_Speed;
     }
 
+    public void SetValue(float radius, float attackRange, Vector2 dir)
+    {
+        this.radius = radius;
+        this.attackRange = attackRange;
+        this.inputDir = dir;
+    }
+
+    float t = 0;
+    private void Update()
+    {
+        t += Time.deltaTime;
+        if (t > 4)
+        {
+            attack.ShootingInit();
+            Destroy(this.gameObject);
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Enemy"))
         {
             SeperateBullet();
-            CheckOtherEnemy(inputDir, collision.contacts[0].point);
+            attack.ShootingInit();
+            collision.gameObject.GetComponent<ApheliosEnemy>().CheckOtherEnemy(inputDir, collision.contacts[0].point, radius, attackRange, HitMat);
+            Destroy(this.gameObject);
         }
 
     }
-
-    private void CheckOtherEnemy(Vector3 dir, Vector3 hitPoint) //플레이어가 쏜 총알 방향 벡터
-    {
-        Collider[] enemys = Physics.OverlapSphere(hitPoint, radius, 1 << LayerMask.NameToLayer("Enemy"));
-        for (int i = 0; i < enemys.Length; i++)
-        {
-            Vector2 myDir = (enemys[i].transform.position - hitPoint).normalized; // 맞은 곳에서 범위 안에 있는 적을 향한 벡터
-            float myAngle = Mathf.Acos(Vector3.Dot(inputDir, myDir)) * Mathf.Rad2Deg;// 각도를 구한후 ACOs에 넣음       
-            if (myAngle < attackAngleRange) ;//맞은거
-            else; //안맞은거
-        }
-    }
-
     private void SeperateBullet()
     {
             
     }
-
-
-
 }
