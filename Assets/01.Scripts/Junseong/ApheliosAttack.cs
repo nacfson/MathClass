@@ -51,7 +51,9 @@ public class ApheliosAttack : MonoBehaviour
                     lineRender.SetPosition(1, hit.point);
                     if(!Iscreate)
                     {
+                        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                         CreateMesh currentMesh = Instantiate<CreateMesh>(_CM, hit.point, Quaternion.identity);
+                        currentMesh.transform.rotation = Quaternion.AngleAxis(angle + AttackAngleRange/2, Vector3.forward);
                         currentMesh.NormalAttack(transform, AttackAngleRange, radius); 
                     }
                 }
@@ -69,8 +71,9 @@ public class ApheliosAttack : MonoBehaviour
  
         if (Input.GetKey(KeyCode.Mouse0) && !isShooting)
         {
-            isShooting = true;
-            Bullet spawnBul = Instantiate(bullet, transform.position, Quaternion.identity);
+            isShooting = true; 
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Bullet spawnBul = Instantiate(bullet, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
             spawnBul.Shoot(dir);
             spawnBul.SetValue(radius, attackAngleRange, dir);
             //Invoke("ShootingInit", 1.5f);

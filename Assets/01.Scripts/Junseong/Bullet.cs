@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float m_Speed = 5f;
     [SerializeField] Rigidbody rb;
+    [SerializeField] GameObject seperateBullet;
     ApheliosAttack attack;
     Vector3 inputDir;
     float radius;
@@ -56,6 +57,11 @@ public class Bullet : MonoBehaviour
     }
     private void SeperateBullet()
     {
-            
+        for(int i = -2; i < 3; i++)
+        {
+            float angle = attackRange / 5;
+            GameObject a = Instantiate(seperateBullet, transform.position, Quaternion.Euler(new Vector3(0,0,angle * i + (transform.rotation.z * Mathf.Rad2Deg))));
+            a.GetComponent<SeperateBulletScript>().Shoot();
+        }
     }
 }

@@ -48,6 +48,7 @@ public class CreateMesh : MonoBehaviour
         mesh.triangles = triangles;
 
         aphelios = tr.GetComponent<ApheliosAttack>();
+        //transform.rotation = rotation;
     }
 
     public Vector3 GetVectorFromAngle(float angle)
