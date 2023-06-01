@@ -58,10 +58,10 @@ public class MinecraftXP : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(player.transform.position, transform.position) <= 3f)
+        if (Vector2.Distance(player.transform.position, transform.position) <= 4f)
         {
             Vector2 dir = player.transform.position - transform.position;
-            transform.position += (Vector3)dir * easeInSine(1) * Time.deltaTime;
+            transform.position += (Vector3)dir * easeInSine(1) * Time.deltaTime * 2;
         }
     }
 
