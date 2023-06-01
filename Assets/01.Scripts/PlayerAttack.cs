@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour{
@@ -13,8 +10,18 @@ public class PlayerAttack : MonoBehaviour{
     }
 
     private void Attack(){
-        Collider[] col = Physics.OverlapSphere(transform.position,10f);
+        Collider[] cols = Physics.OverlapSphere(transform.position,10f , 1 << LayerMask.NameToLayer("ENEMY"));
 
+        foreach(Collider col in cols){
+            float a = Vector3.Dot((col.transform.forward),transform.position - col.transform.position);
+
+            if(a > 0){
+                col.GetComponent<EnemyHealth>().Damaged(false);
+            }            
+            else{
+                col.GetComponent<EnemyHealth>().Damaged(true);
+            }
+        }
         
     }
 }
